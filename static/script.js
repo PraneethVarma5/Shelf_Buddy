@@ -139,7 +139,7 @@ tipsHeader.addEventListener('click', function () {
             if (manufacturingDate) payload.manufacturing_date = date;
 
             try {
-                const res = await fetch('http://localhost:5000/get-product', {
+                const res = await fetch('/get-product', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
@@ -189,7 +189,7 @@ tipsHeader.addEventListener('click', function () {
                 : "food";
 
             try {
-                const res = await fetch('http://localhost:5000/get-category-average', {
+                const res = await fetch('/get-category-average', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ category: selectedCategory })
