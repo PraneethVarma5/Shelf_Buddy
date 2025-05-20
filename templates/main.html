@@ -14,7 +14,8 @@ which helps users track food expiry dates based on product type, storage conditi
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Link external stylesheet for UI styling -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 
     
 </head>
@@ -208,7 +209,5 @@ which helps users track food expiry dates based on product type, storage conditi
             </div>
         </div>
     </div>
-    <!-- Link external script to add interactivity -->
-    <script src="script.js"></script>
 </body>
 </html>
