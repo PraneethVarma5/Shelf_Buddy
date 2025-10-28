@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, send_from_directory
 from flask_cors import CORS
 import sqlite3
 from datetime import datetime, timedelta
@@ -24,6 +24,15 @@ def get_shelf_life(product, storage, opened):
     conn.close()
 
     return result[0] if result and result[0] is not None else None
+# Route for robots.txt
+@app.route('/robots.txt')
+def robots_txt():
+    return send_from_directory(app.static_folder, 'robots.txt')
+
+# Route for sitemap.xml
+@app.route('/sitemap.xml')
+def sitemap_xml():
+    return send_from_directory(app.static_folder, 'sitemap.xml')
 
 @app.route('/get-product', methods=['POST'])
 def get_product():

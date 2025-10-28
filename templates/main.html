@@ -8,8 +8,23 @@ which helps users track food expiry dates based on product type, storage conditi
 <head>
     <meta charset="UTF-8"> <!-- Declares UTF-8 character encoding -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ensures responsiveness -->
-    <title>Shelf Buddy</title> <!-- Browser tab title -->
 
+    <meta name="description" content="Shelf Buddy is a smart expiry tracker that predicts shelf life, reduces waste, and manages inventory using lightweight AI algorithms. Available as a web app." />
+<meta name="keywords" content="Shelf Buddy, expiry tracker, shelf life prediction, inventory tracker, food waste reduction, AI expiry prediction" />
+<meta name="author" content="Praneeth Varma" />
+<link rel="canonical" href="https://shelf-buddy.onrender.com/" />
+<meta name="robots" content="index, follow" />
+<!-- Open Graph for social shares -->
+<meta property="og:title" content="Shelf Buddy — Smart Expiry Tracker" />
+<meta property="og:description" content="AI-driven expiry tracking and shelf-life prediction to reduce waste and manage inventory." />
+<meta property="og:url" content="https://shelf-buddy.onrender.com/" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://shelf-buddy.onrender.com/images/og-image.png" />
+<link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+<link rel="icon" type="image/png" href="/static/favicon.png">
+
+    <title>Shelf Buddy— Smart Expiry & Inventory Tracker</title> <!-- Browser tab title -->
+    <meta name="google-site-verification" content="MNKzc0zxW2Tu3AXmU4uy3QhHOWHxekgImUvFiGSBbU8" />
     <!-- Font Awesome CDN for using icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -17,6 +32,7 @@ which helps users track food expiry dates based on product type, storage conditi
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 
+    <link rel="icon" type="image/png" href="shelfbuddy.png">
     
 </head>
 <body>
@@ -26,7 +42,6 @@ which helps users track food expiry dates based on product type, storage conditi
         <h2>Keep Track of Your Food Expiry Dates</h2> <!-- Description -->
         <h4>Calculate expiry dates and reduce food waste with Shelf Buddy</h4> <!-- Tagline -->
     </div>
-
     <!-- Core application area -->
     <div class="container">
         <h1>Shelf Buddy</h1> <!-- Repeated heading for consistency inside container -->
