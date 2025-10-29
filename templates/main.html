@@ -20,10 +20,8 @@ which helps users track food expiry dates based on product type, storage conditi
 <meta property="og:url" content="https://shelf-buddy.onrender.com/" />
 <meta property="og:type" content="website" />
 <meta property="og:image" content="https://shelf-buddy.onrender.com/images/og-image.png" />
-<link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
-<link rel="icon" type="image/png" href="/static/favicon.png">
 
-    <title>Shelf Buddy— Smart Expiry & Inventory Tracker</title> <!-- Browser tab title -->
+<title>Shelf Buddy— Smart Expiry & Inventory Tracker</title> <!-- Browser tab title -->
     <meta name="google-site-verification" content="MNKzc0zxW2Tu3AXmU4uy3QhHOWHxekgImUvFiGSBbU8" />
     <!-- Font Awesome CDN for using icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -32,16 +30,32 @@ which helps users track food expiry dates based on product type, storage conditi
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 
-    <link rel="icon" type="image/png" href="shelfbuddy.png">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='shelfbuddy.png') }}">
+
+
+    
+
+    
+
+
     
 </head>
 <body>
     <!-- Header section with branding and purpose -->
-    <div class="title">
-        <h1><b>Shelf Buddy</b></h1> <!-- App name -->
-        <h2>Keep Track of Your Food Expiry Dates</h2> <!-- Description -->
-        <h4>Calculate expiry dates and reduce food waste with Shelf Buddy</h4> <!-- Tagline -->
+         <img src="shelfbuddy.png" alt="ShelfBuddy Logo" width=auto height=40 class="logo">
+
+    <div class="Main-head">
+                <h1><B>Shelf Buddy</h1></B>
     </div>
+
+    <div class="title">
+    <div class="title-header">
+        <h1><b>Keep Track of Your Food Expiry Dates</b></h1>
+    </div>
+    <h4>Calculate expiry dates and reduce food waste with Shelf Buddy</h4>
+</div>
     <!-- Core application area -->
     <div class="container">
         <h1>Shelf Buddy</h1> <!-- Repeated heading for consistency inside container -->
@@ -168,7 +182,7 @@ which helps users track food expiry dates based on product type, storage conditi
     </div>
     <div class="info-item">
       <div class="info-item-title">Product Not Found</div>
-      <div class="info-item-text">If you enter the product name and it displays item not found then try the same item in plural words of that item like instead of potato try using potatoes, and also check the spell mistakes. Still you cant't find the item then it is not available in our database.  </div>
+      <div class="info-item-text">Our database uses specific names. If your item isn't found, check for plurals (e.g., try "Potato" instead of "Potatoes") or check your spelling. If it's still not found, it may not be in our database. 
     </div>
   </div>
 </div>

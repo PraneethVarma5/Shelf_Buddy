@@ -19,11 +19,23 @@ def get_shelf_life(product, storage, opened):
 
     conn = sqlite3.connect(DB)
     c = conn.cursor()
-    c.execute(f"SELECT {column} FROM products WHERE lower(name) = ?", (product.lower(),))
+
+    # --- START FIX ---
+    # 1. Change the query to use LIKE for a partial match
+    sql_query = f"SELECT {column} FROM products WHERE lower(name) LIKE ?"
+    
+    # 2. Create a search term with wildcards
+    search_term = f'%{product.lower()}%'
+    
+    # 3. Execute with the new query and search term
+    c.execute(sql_query, (search_term,))
+    # --- END FIX ---
+
     result = c.fetchone()
     conn.close()
 
     return result[0] if result and result[0] is not None else None
+
 # Route for robots.txt
 @app.route('/robots.txt')
 def robots_txt():
@@ -68,6 +80,7 @@ def get_product():
         'shelf_life': shelf_life
     })
 
+
 @app.route('/get-category-average', methods=['POST'])
 def get_category_average():
     data = request.json
@@ -77,15 +90,20 @@ def get_category_average():
 
     conn = sqlite3.connect(DB)
     c = conn.cursor()
-    c.execute(f'''
+    
+    # --- START FIX ---
+    # Remove the 'f' from f'''...'''
+    c.execute('''
         SELECT AVG(
             shelf_life_room_closed + shelf_life_refrigerated_closed + shelf_life_frozen_closed
         ) / 3 FROM products WHERE lower(category) = ?
     ''', (category.lower(),))
+    # --- END FIX ---
+    
     avg = c.fetchone()[0]
     conn.close()
 
-    if not avg:
+    if avg is None: # Changed 'if not avg' to 'if avg is None' to correctly handle 0
         return jsonify({'status': 'error', 'message': 'Category not found or no data'}), 404
 
     return jsonify({
@@ -93,6 +111,8 @@ def get_category_average():
         'category': category,
         'average_shelf_life': round(avg)
     })
+
+
 @app.route('/')
 def home():
     return render_template("main.html")

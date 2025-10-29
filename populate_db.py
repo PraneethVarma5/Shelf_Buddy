@@ -4,7 +4,6 @@ conn = sqlite3.connect('database.db')
 c = conn.cursor()
 
 # Create products table (if it doesn't exist)
-# This part was 100% correct
 c.execute('''
 CREATE TABLE IF NOT EXISTS products (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -19,172 +18,128 @@ CREATE TABLE IF NOT EXISTS products (
 )
 ''')
 
-# --- List 1: User's provided 'items' list (83 items) ---
-items = [
-    ("Rice (white)", "food", 3650, 3650, 3650, 3650, 10950, 10950),
-    ("Basmati rice", "food", 3650, 3650, 3650, 3650, 10950, 10950),
-    ("Wheat flour (Atta)", "food", 360, 180, 360, 360, 720, 720),
-    ("Gram flour (Besan)", "food", 360, 180, 360, 360, 720, 720),
-    ("Moong dal (whole)", "food", 365, 365, 365, 365, 730, 730),
-    ("Moong dal (split)", "food", 180, 180, 270, 270, 730, 730),
-    ("Urad dal (whole)", "food", 365, 365, 365, 365, 730, 730),
-    ("Urad dal (split)", "food", 180, 180, 270, 270, 730, 730),
-    ("Chana dal (split)", "food", 270, 180, 365, 365, 730, 730),
-    ("Chana (chickpeas, whole)", "food", 270, 180, 365, 365, 730, 730),
-    ("Masoor dal (red lentil)", "food", 270, 180, 365, 365, 730, 730),
-    ("Toor dal (pigeon pea)", "food", 365, 180, 365, 365, 730, 730),
-    ("Rajma (kidney beans)", "food", 365, 365, 365, 365, 1095, 1095),
-    ("Chole (chickpeas)", "food", 365, 365, 365, 365, 1095, 1095),
-    ("Soya beans", "food", 365, 365, 365, 365, 1095, 1095),
-    ("Soya chunks (TVP)", "food", 180, 90, 180, 180, 365, 365),
-    ("Cumin (Jeera)", "food", 365, 365, 730, 730, 1095, 1095),
-    ("Turmeric powder (Haldi)", "food", 730, 730, 1095, 1095, 1460, 1460),
-    ("Red chili powder", "food", 365, 365, 730, 730, 1095, 1095),
-    ("Salt", "food", 0, 0, 0, 0, 0, 0),
-    ("Sugar", "food", 365, 365, 365, 365, 1095, 1095),
-    ("Vegetable oil", "food", 180, 90, 365, 365, 365, 365),
-    ("Ghee", "food", 365, 365, 365, 365, 365, 365),
-    ("Butter", "food", 2, 2, 150, 150, 365, 365),
-    ("Milk (pasteurized)", "food", 1, 1, 7, 7, 30, 30),
-    ("Milk (UHT tetra-pack)", "food", 180, 1, 180, 2, 90, 30),
-    ("Yogurt (curd/Dahi)", "food", 5, 5, 12, 12, 30, 30),
-    ("Buttermilk (Chaas)", "food", 1, 1, 3, 3, 0, 0),
-    ("Paneer (fresh cheese)", "food", 0, 0, 2, 2, 60, 60),
-    ("Curd (homemade yogurt)", "food", 5, 5, 12, 12, 30, 30),
-    ("Khoya (milk solids)", "food", 1, 1, 5, 5, 30, 30),
-    ("Rice flour", "food", 180, 180, 365, 365, 730, 730),
-    ("Coconut (fresh)", "food", 2, 2, 7, 7, 180, 180),
-    ("Coconut (dry, desiccated)", "food", 180, 180, 365, 365, 730, 730),
-    ("Potato", "food", 30, 30, 28, 28, 180, 180),
-    ("Onion", "food", 30, 30, 90, 90, 240, 240),
-    ("Tomato", "food", 5, 5, 14, 14, 30, 30),
-    ("Garlic", "food", 90, 90, 180, 180, 365, 365),
-    ("Ginger (whole)", "food", 21, 7, 30, 14, 180, 180),
-    ("Green chili", "food", 5, 5, 14, 14, 30, 30),
-    ("Okra (ladies' finger)", "food", 3, 3, 15, 15, 180, 180),
-    ("Bitter gourd (karela)", "food", 4, 4, 21, 21, 90, 90),
-    ("Brinjal (eggplant)", "food", 3, 3, 5, 3, 90, 90),
-    ("Cabbage", "food", 2, 2, 10, 10, 180, 180),
-    ("Cauliflower", "food", 3, 3, 7, 7, 90, 90),
-    ("Carrot", "food", 5, 5, 14, 14, 180, 180),
-    ("Green peas (fresh)", "food", 1, 1, 7, 7, 180, 180),
-    ("Pumpkin (kaddoo)", "food", 30, 30, 60, 60, 180, 180),
-    ("Bottle gourd (lauki)", "food", 3, 3, 7, 7, 90, 90),
-    ("Ridge gourd (turai)", "food", 3, 3, 5, 5, 90, 90),
-    ("Drumstick", "food", 2, 2, 5, 5, 90, 90),
-    ("Banana (ripe)", "food", 3, 3, 7, 7, 30, 30),
-    ("Apple", "food", 7, 7, 30, 30, 180, 180),
-    ("Mango (ripe)", "food", 5, 5, 7, 7, 180, 180),
-    ("Dates (dried)", "food", 180, 180, 365, 365, 730, 730),
-    ("Biscuits (dry)", "food", 30, 15, 60, 30, 180, 90),
-    ("Instant noodles (dry)", "food", 300, 300, 730, 730, 1095, 1095),
-    ("Tea (loose)", "food", 365, 365, 365, 365, 365, 365),
-    ("Coffee powder", "food", 180, 90, 365, 365, 730, 730),
-    ("Honey", "food", 0, 0, 0, 0, 0, 0),
-    ("Salted lemon pickle (homemade)", "food", 180, 30, 365, 60, 365, 90),
-    ("Antacid tablets", "medicine", 730, 365, 730, 365, 1095, 730),
-    ("Paracetamol tablets", "medicine", 730, 365, 730, 365, 1095, 730),
-    ("Ibuprofen tablets", "medicine", 730, 365, 730, 365, 1095, 730),
-    ("Cetirizine tablets", "medicine", 730, 365, 730, 365, 1095, 730),
-    ("Loperamide tablets", "medicine", 730, 365, 730, 365, 1095, 730),
-    ("Cough syrup (generic)", "medicine", 180, 90, 180, 90, 365, 180),
-    ("Antacid syrup", "medicine", 180, 90, 180, 90, 365, 180),
-    ("ORS powder sachet", "medicine", 365, 180, 365, 180, 730, 360),
-    ("Multivitamin tablets", "medicine", 730, 365, 730, 365, 1095, 730),
-    ("Antiseptic liquid (e.g., Dettol)", "medicine", 365, 180, 365, 180, 1095, 365),
-    ("Antibiotic cream", "medicine", 365, 180, 365, 180, 1095, 365),
-    ("Calamine lotion", "medicine", 365, 180, 365, 180, 1095, 365),
-    ("Paracetamol syrup (child)", "medicine", 180, 90, 180, 90, 365, 180),
-    ("Eye drops", "medicine", 180, 30, 180, 30, 365, 180),
-    ("Ear drops", "medicine", 180, 30, 180, 30, 365, 180),
-    ("Pain relief balm (e.g., Tiger Balm)", "medicine", 365, 180, 365, 180, 365, 180),
-    ("Hydrocortisone cream", "medicine", 365, 180, 365, 180, 1095, 365),
-    ("Antifungal cream", "medicine", 365, 180, 365, 180, 1095, 365),
-    ("Oral rehydration salts (ORS)", "medicine", 365, 180, 365, 180, 730, 360)
-]
+# --- Master Product List ---
+# This list is consolidated and corrected based on your request.
+# 3650 = 10 Years (for "indefinite" items)
+# 0 = Not Recommended / Unsafe
 
-# --- List 2: Standardized 'new_products_india' list (55 items) ---
-# (All 'None' values have been replaced with 0 to match your list format)
-new_products_india_standardized = [
-    # Flours & Grains (Prone to weevils in humidity)
-    ('Atta (Wheat Flour)', 'Flour', 90, 30, 180, 90, 365, 180),
-    ('Besan (Gram Flour)', 'Flour', 120, 60, 180, 90, 365, 180),
-    ('Sooji (Semolina)', 'Flour', 120, 60, 180, 90, 365, 180),
-    ('Maida (Refined Flour)', 'Flour', 120, 60, 180, 90, 365, 180),
-    ('Basmati Rice (White, Dry)', 'Grains', 730, 365, 730, 365, 0, 0),
-    ('Brown Rice (Dry)', 'Grains', 180, 90, 365, 180, 0, 0),
-    ('Poha (Flattened Rice)', 'Grains', 120, 45, 180, 90, 0, 0),
+master_product_list = [
+    # (Name, Cat, Room-C, Room-O, Ref-C, Ref-O, Fro-C, Fro-O)
 
-    # Dals & Pulses (Store airtight)
-    ('Toor Dal (Arhar)', 'Pulses', 365, 180, 365, 180, 0, 0),
-    ('Moong Dal', 'Pulses', 365, 180, 365, 180, 0, 0),
-    ('Chana Dal', 'Pulses', 365, 180, 365, 180, 0, 0),
-    ('Urad Dal', 'Pulses', 365, 180, 365, 180, 0, 0),
-    ('Rajma (Dry)', 'Pulses', 730, 365, 730, 365, 0, 0),
-    ('Kabuli Chana (Chickpeas, Dry)', 'Pulses', 730, 365, 730, 365, 0, 0),
-
-    # Spices (Lose potency in heat)
-    ('Coriander Powder (Dhania)', 'Spices', 180, 180, 365, 365, 0, 0),
-    ('Cumin Powder (Jeera)', 'Spices', 180, 180, 365, 365, 0, 0),
-    ('Garam Masala (Blend)', 'Spices', 180, 180, 365, 365, 0, 0),
-    ('Cumin Seeds (Jeera)', 'Spices', 730, 730, 730, 730, 0, 0),
-    ('Mustard Seeds (Rai)', 'Spices', 730, 730, 730, 730, 0, 0),
-    ('Asafoetida (Hing)', 'Spices', 365, 365, 365, 365, 0, 0),
-
-    # Oils & Fats (Go rancid in heat)
-    # ('Ghee', 'Oils', 180, 90, 365, 180, 0, 0), # Duplicate 'Ghee' from list 1
-    ('Mustard Oil', 'Oils', 180, 90, 180, 90, 0, 0),
-    ('Coconut Oil (Virgin)', 'Oils', 365, 180, 365, 180, 0, 0),
-    ('Sunflower Oil', 'Oils', 180, 90, 180, 90, 0, 0),
-    ('Groundnut Oil', 'Oils', 180, 90, 180, 90, 0, 0),
+    # --- Food: Pantry Staples ---
+    ("Rice", "food", 180, 90, 365, 180, 0, 0),
+    ("Wheat Flour (Atta)", "food", 180, 60, 365, 180, 730, 365),
+    ("Sugar", "food", 3650, 3650, 3650, 3650, 0, 0),
+    ("Salt", "food", 3650, 3650, 3650, 3650, 0, 0),
+    ("Cooking Oil (Vegetable)", "food", 365, 180, 0, 0, 0, 0),
+    ("Ghee", "food", 365, 180, 365, 180, 0, 0),
+    ("Lentils (Dal)", "food", 365, 180, 365, 180, 0, 0),
+    ("Chickpeas (Dry)", "food", 730, 365, 730, 365, 0, 0),
+    ("Kidney Beans (Rajma)", "food", 730, 365, 730, 365, 0, 0),
+    ("Tea Powder", "food", 365, 180, 365, 180, 0, 0),
+    ("Coffee Powder", "food", 365, 60, 365, 60, 0, 0),
+    ("Dry Fruits (Almonds, Cashews)", "food", 180, 60, 365, 180, 0, 0),
+    ("Peanuts", "food", 180, 60, 365, 180, 0, 0),
     
-    # Dairy & Perishables
-    ('Paneer (Fresh/Packaged)', 'Dairy', 1, 1, 7, 3, 90, 30),
-    ('Dahi (Curd, Homemade)', 'Dairy', 1, 1, 3, 2, 0, 0),
-    ('Dahi (Curd, Packaged)', 'Dairy', 0, 0, 10, 5, 0, 0),
-    ('UHT Milk (Tetra Pak, Unopened)', 'Dairy', 180, 0, 180, 0, 0, 0),
-    ('UHT Milk (Tetra Pak, Opened)', 'Dairy', 0, 0, 3, 3, 0, 0),
-    ('Idli/Dosa Batter (Fresh)', 'Perishables', 0, 0, 3, 2, 30, 15),
+    # --- Food: Dairy & Perishables ---
+    ("Butter", "food", 1, 0, 180, 30, 365, 180),
+    ("Milk", "food", 0, 0, 5, 3, 0, 0), # Based on pasteurized milk (worst-case)
+    ("Curd (Yogurt)", "food", 0, 0, 14, 5, 0, 0),
+    ("Cheese (Hard Block)", "food", 0, 0, 180, 30, 240, 180),
+    ("Paneer", "food", 0, 0, 5, 2, 90, 30),
+    ("Eggs", "food", 7, 0, 30, 0, 0, 0),
 
-    # Common Indian Vegetables
-    ('Okra (Bhindi)', 'Vegetables', 2, 0, 5, 3, 0, 0),
-    ('Brinjal (Baingan)', 'Vegetables', 3, 0, 7, 4, 0, 0),
-    # ('Bitter Gourd (Karela)', 'Vegetables', 4, 0, 10, 5, 0, 0), # Duplicate 'Bitter gourd (karela)'
-    ('Bottle Gourd (Lauki)', 'Vegetables', 4, 0, 10, 5, 0, 0),
-    # ('Ginger', 'Vegetables', 14, 7, 30, 21, 180, 90), # Duplicate 'Ginger (whole)'
-    ('Green Chillies', 'Vegetables', 3, 2, 14, 7, 180, 90),
-    ('Curry Leaves (Fresh)', 'Vegetables', 1, 1, 7, 5, 90, 60),
+    # --- Food: Meat & Fish ---
+    ("Fish (Raw)", "food", 0, 0, 2, 2, 240, 120),
+    ("Chicken (Raw)", "food", 0, 0, 2, 2, 365, 180),
+    ("Mutton (Raw)", "food", 0, 0, 3, 3, 365, 180),
+
+    # --- Food: Produce ---
+    ("Onion", "food", 30, 14, 60, 14, 0, 0),
+    ("Potato", "food", 60, 0, 0, 0, 0, 0),
+    ("Tomato", "food", 7, 0, 14, 7, 0, 0),
+    ("Garlic", "food", 120, 30, 120, 30, 365, 180),
+    ("Ginger", "food", 21, 0, 30, 14, 180, 180),
+    ("Coconut (Fresh)", "food", 2, 0, 7, 3, 180, 30),
+    ("Coconut (Dry)", "food", 180, 90, 365, 180, 0, 0),
+
+    # --- Food: Snacks & Condiments ---
+    ("Bread", "food", 5, 5, 14, 14, 90, 30),
+    ("Biscuits (Dry)", "food", 180, 30, 0, 0, 0, 0),
+    ("Snacks (Namkeen)", "food", 120, 14, 0, 0, 0, 0),
+    ("Pickles (Achar)", "food", 365, 180, 365, 180, 0, 0),
+    ("Jam (Fruit)", "food", 365, 0, 365, 90, 0, 0),
+    ("Honey", "food", 3650, 3650, 3650, 3650, 0, 0),
+    ("Jaggery (Gud)", "food", 180, 90, 365, 180, 0, 0),
+    ("Tamarind (Block/Paste)", "food", 365, 180, 365, 180, 0, 0),
+
+    # --- Food: Spices ---
+    ("Spices (Whole, e.g. Cumin)", "food", 730, 365, 730, 365, 0, 0),
+    ("Spices (Powder, e.g. Turmeric)", "food", 365, 180, 365, 180, 0, 0),
+    ("Chilli Powder", "food", 365, 180, 730, 365, 0, 0),
     
-    # Condiments & Other
-    ('Tamarind (Imli) Block', 'Condiments', 365, 180, 365, 180, 0, 0),
-    ('Jaggery (Gud)', 'Sweetener', 180, 90, 365, 180, 0, 0),
-    ('Mango Pickle (Achar, Opened)', 'Condiments', 90, 90, 180, 180, 0, 0),
-    ('Papad (Uncooked)', 'Snacks', 365, 180, 365, 180, 0, 0),
-    ('Namkeen/Bhujia (Opened)', 'Snacks', 14, 14, 30, 30, 0, 0),
-    ('Parle-G (Biscuits, Opened)', 'Snacks', 21, 21, 30, 30, 0, 0),
+    # --- Food: Frozen & Drinks ---
+    ("Frozen Vegetables", "food", 0, 0, 0, 0, 365, 30),
+    ("Frozen Paratha", "food", 0, 0, 0, 0, 270, 30),
+    ("Ice Cream", "food", 0, 0, 0, 0, 270, 0), # Loses quality, don't refreeze
+    ("Soft Drinks (Sealed)", "food", 270, 0, 270, 3, 0, 0),
+    ("Juice (UHT/Packaged)", "food", 180, 0, 180, 7, 0, 0),
+    ("Instant Noodles (Dry)", "food", 365, 365, 0, 0, 0, 0),
 
-    # Common Indian Medicines (Store below 25°C)
-    ('Crocin/Dolo (Paracetamol)', 'Medicine', 730, 365, 730, 365, 0, 0),
-    ('Disprin (Aspirin)', 'Medicine', 730, 365, 730, 365, 0, 0),
-    ('Combiflam (Ibuprofen+PCM)', 'Medicine', 730, 365, 730, 365, 0, 0),
-    ('Digene (Antacid Tablets)', 'Medicine', 730, 365, 730, 365, 0, 0),
-    ('Gelusil (Antacid Liquid)', 'Medicine', 730, 90, 730, 90, 0, 0),
-    ('ORS Powder (Sealed)', 'Medicine', 730, 0, 730, 0, 0, 0),
-    ('ORS (Reconstituted)', 'Medicine', 1, 1, 1, 1, 0, 0),
-    ('Vicks VapoRub (Opened)', 'Medicine', 365, 365, 365, 365, 0, 0),
-    ('Benadryl (Cough Syrup)', 'Medicine', 730, 180, 730, 180, 0, 0),
-    ('Strepsils (Lozenges)', 'Medicine', 730, 730, 730, 730, 0, 0)
+    # --- Medicine ---
+    ("Paracetamol (Tablets)", "medicine", 730, 365, 730, 365, 0, 0),
+    ("Cough Syrup", "medicine", 730, 180, 730, 180, 0, 0),
+    ("Antibiotic (Tablets)", "medicine", 730, 0, 730, 0, 0, 0),
+    ("Pain Relief Balm", "medicine", 730, 365, 730, 365, 0, 0),
+    ("Antacid (Tablets)", "medicine", 730, 365, 730, 365, 0, 0),
+    ("Multivitamin (Tablets)", "medicine", 730, 365, 730, 365, 0, 0),
+    ("Eye Drops", "medicine", 730, 30, 730, 30, 0, 0),
+    ("Insulin (Unopened)", "medicine", 0, 0, 365, 30, 0, 0),
+    ("Antiseptic Cream", "medicine", 730, 365, 730, 365, 0, 0),
+    ("Bandages (Sterile)", "medicine", 1095, 0, 1095, 0, 0, 0),
+    ("Antiseptic Liquid", "medicine", 730, 365, 730, 365, 0, 0),
+    ("Pain Relief Spray", "medicine", 730, 730, 730, 730, 0, 0),
+    ("Nasal Spray", "medicine", 730, 90, 730, 90, 0, 0),
+    ("ORS Powder (Sachet)", "medicine", 730, 0, 730, 0, 0, 0),
+    ("ORS (Reconstituted)", "medicine", 1, 1, 1, 1, 0, 0),
+    ("Allergy Tablets", "medicine", 730, 365, 730, 365, 0, 0),
+
+    # --- Personal Care ---
+    ("Toothpaste", "personal_care", 730, 365, 0, 0, 0, 0),
+    ("Toothbrush", "personal_care", 3650, 0, 3650, 0, 0, 0),
+    ("Shampoo", "personal_care", 1095, 365, 0, 0, 0, 0),
+    ("Hair Oil", "personal_care", 1095, 365, 0, 0, 0, 0),
+    ("Face Wash", "personal_care", 1095, 365, 0, 0, 0, 0),
+    ("Soap (Bar)", "personal_care", 1095, 1095, 0, 0, 0, 0),
+    ("Body Lotion", "personal_care", 1095, 365, 0, 0, 0, 0),
+    ("Deodorant", "personal_care", 1095, 1095, 0, 0, 0, 0),
+    ("Perfume", "personal_care", 1095, 730, 0, 0, 0, 0),
+    ("Lip Balm", "personal_care", 1095, 365, 0, 0, 0, 0),
+    ("Sunscreen", "personal_care", 1095, 365, 0, 0, 0, 0),
+    ("Moisturizer", "personal_care", 1095, 365, 0, 0, 0, 0),
+    ("Shaving Cream", "personal_care", 1095, 365, 0, 0, 0, 0),
+    ("Razor Blades", "personal_care", 3650, 0, 3650, 0, 0, 0),
+    ("Sanitary Pads", "personal_care", 1095, 0, 1095, 0, 0, 0),
+    ("Hand Sanitizer", "personal_care", 730, 365, 0, 0, 0, 0),
+
+    # --- Household ---
+    ("Detergent (Powder)", "household", 365, 180, 0, 0, 0, 0),
+    ("Dishwash Liquid", "household", 365, 180, 0, 0, 0, 0),
+    ("Floor Cleaner", "household", 730, 365, 0, 0, 0, 0),
+    ("Bleach", "household", 365, 180, 0, 0, 0, 0),
+    ("Toilet Cleaner", "household", 730, 365, 0, 0, 0, 0),
+    ("Air Freshener", "household", 730, 730, 0, 0, 0, 0),
+    ("Garbage Bags", "household", 3650, 3650, 0, 0, 0, 0),
+    ("Mosquito Repellent", "household", 730, 730, 0, 0, 0, 0),
+    ("Batteries (Alkaline)", "household", 2555, 0, 0, 0, 0, 0),
+    ("Candles", "household", 3650, 3650, 0, 0, 0, 0),
+    ("Matchsticks", "household", 3650, 3650, 0, 0, 0, 0),
+    ("Tissue Paper", "household", 3650, 3650, 0, 0, 0, 0),
+    ("Aluminium Foil", "household", 3650, 3650, 0, 0, 0, 0)
 ]
 
 
-# --- Combine both lists ---
-all_products_to_insert = items + new_products_india_standardized
-total_potential_items = len(all_products_to_insert)
-original_items_count = len(items)
-new_items_count = len(new_products_india_standardized)
-
-
-# --- Insert all new products, ignoring duplicates ---
+# --- Insert all products from the master list ---
 try:
     c.executemany('''
     INSERT OR IGNORE INTO products (
@@ -193,7 +148,7 @@ try:
         shelf_life_refrigerated_closed, shelf_life_refrigerated_opened,
         shelf_life_frozen_closed, shelf_life_frozen_opened
     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-    ''', all_products_to_insert)
+    ''', master_product_list)
     
     # Get the number of rows actually inserted
     inserted_count = c.rowcount
@@ -201,9 +156,8 @@ try:
     
     # Provide a clear, accurate report
     print(f"Database population complete.")
-    print(f"Attempted to insert {total_potential_items} items (from {original_items_count} + {new_items_count} lists).")
-    print(f"Successfully inserted {inserted_count} unique items.")
-    print(f"{total_potential_items - inserted_count} duplicate items were IGNORED.")
+    print(f"Total items in master list: {len(master_product_list)}")
+    print(f"Successfully inserted {inserted_count} new unique items.")
 
 except sqlite3.Error as e:
     print(f"An error occurred: {e}")
