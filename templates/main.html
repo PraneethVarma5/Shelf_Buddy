@@ -28,10 +28,8 @@ which helps users track food expiry dates based on product type, storage conditi
 
     <!-- Link external stylesheet for UI styling -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
 
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='shelfbuddy.png') }}">
 
 
@@ -44,8 +42,7 @@ which helps users track food expiry dates based on product type, storage conditi
 </head>
 <body>
     <!-- Header section with branding and purpose -->
-         <img src="shelfbuddy.png" alt="ShelfBuddy Logo" width=auto height=40 class="logo">
-
+<img src="{{ url_for('static', filename='shelfbuddy.png') }}" alt="ShelfBuddy Logo" width=auto height=40 class="logo">
     <div class="Main-head">
                 <h1><B>Shelf Buddy</h1></B>
     </div>
