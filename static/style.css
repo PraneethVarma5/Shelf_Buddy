@@ -1,4 +1,4 @@
-    /*
+/*RESPONSIVE
     style.css
     Defines the appearance and layout for the Shelf Buddy web app,
     covering layout, responsiveness, colors, spacing, and interaction states.
@@ -15,7 +15,8 @@
 
 .logo{
     margin-left: 50px;
-    margin-top: 70px  ;
+    margin-top: 70px ;
+    height: 45px;
 }
 
 .title-header h1 {
@@ -414,3 +415,96 @@
     color: red;
     font-weight: 600;
     }
+
+    /* =====================================================
+   RESPONSIVE ADAPTATION (Add at END of your CSS)
+   ===================================================== */
+
+/* ---------------- Responsive Design ---------------- */
+
+/* For tablets and small laptops */
+@media (max-width: 992px) {
+  body {
+    padding: 10px;
+  }
+
+  .container, .card, .info-card {
+    width: 100%;
+    max-width: 95%;
+    margin: 0 auto;
+  }
+
+  h1, h2, h3 {
+    text-align: center;
+    word-wrap: break-word;
+  }
+
+  img.logo {
+    width: 100px;
+    height: auto;
+  }
+}
+
+/* For mobile devices */
+@media (max-width: 600px) {
+
+  /* Make logo and title stack neatly */
+  .logo {
+    display: block;
+    margin: 0 auto 10px auto;
+    width: 80px;
+    height: auto;
+  }
+  h1 {
+  margin-top: 100px;
+  margin-bottom: 80px;
+}
+
+
+  h1, h2, h3 {
+    font-size: 1.4rem;
+    line-height: 1.3;
+    text-align: center;
+  }
+
+  p, label, button {
+    font-size: 0.9rem;
+  }
+
+  /* Ensure input boxes and buttons don’t overflow */
+  input, select, button {
+    width: 100%;
+    font-size: 1rem;
+  }
+
+  .card, .info-card {
+    padding: 15px;
+    border-radius: 10px;
+  }
+
+  .info-card img, .info-card svg {
+    width: 40px;
+    height: 40px;
+  }
+
+  .info-card h4 {
+    font-size: 1rem;
+  }
+
+  /* Fix stacking of logo and title */
+  header, .title-section {
+    display: flex;
+    flex-direction: column;
+    /**/
+  }
+
+  /* Prevent horizontal scroll */
+  body, html {
+    overflow-x: hidden;
+  }
+
+  /* Adjust spacing between sections */
+  section {
+    margin: 15px 0;
+  }
+}
