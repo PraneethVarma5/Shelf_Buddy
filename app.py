@@ -2,6 +2,8 @@ from flask import Flask, request, jsonify, render_template, send_from_directory
 from flask_cors import CORS
 import sqlite3
 from datetime import datetime, timedelta
+from flask import Response
+import os
 
 app = Flask(__name__)
 CORS(app)
@@ -38,8 +40,12 @@ def get_shelf_life(product, storage, opened):
 
 # Route for robots.txt
 @app.route('/robots.txt')
-def robots_txt():
-    return send_from_directory(app.static_folder, 'robots.txt')
+def serve_robots():
+    return send_from_directory(
+        os.path.join(app.root_path, 'static'),
+        'robots.txt',
+        mimetype='text/plain'
+    )
 
 # Route for sitemap.xml
 @app.route('/sitemap.xml')
@@ -116,8 +122,6 @@ def get_category_average():
 @app.route('/')
 def home():
     return render_template("main.html")
-
-import os
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 10000))
